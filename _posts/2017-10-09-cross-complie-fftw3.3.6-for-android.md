@@ -1,3 +1,13 @@
+---
+layout:     post
+title:      "移植fftw-3.3.6到Android上"
+date:       2017-10-09
+author:     "winson"
+tags:
+    - fftw
+    - Android
+---
+
 # 移植fftw-3.3.6到Android上
 
 ## 0x00 源码的选择
@@ -13,7 +23,7 @@
 1. 设置环境变量ANDROID_NDK指向NDK的位置（一般搞Android开发的都有了就不需要这个步骤了） 
 2. 在源码根目录新建一个文件build_android.sh，文件里面内容如下:
 
-```
+``` shell
 #!/bin/sh
 # FourierTest/build.sh
 # Compiles fftw3 for Android
