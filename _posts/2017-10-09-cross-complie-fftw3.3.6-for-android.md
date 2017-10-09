@@ -11,7 +11,8 @@
 这个的话最简单，官网我没找到相关教程，google了一下发现了[这篇文章][1]，于是依葫芦画瓢。
 
 1. 设置环境变量ANDROID_NDK指向NDK的位置（一般搞Android开发的都有了就不需要这个步骤了） 
-2. 在源码根目录新建一个文件build_android.sh，文件里面内容如下：
+2. 在源码根目录新建一个文件build_android.sh，文件里面内容如下:
+
 ```
 #!/bin/sh
 # FourierTest/build.sh
@@ -40,6 +41,7 @@ make install
 
 exit 0
 ```
+
 然后直接运行./build_android.sh就好了，就会生成libfftw3.a在build/android/libs目录。如果没生成多半是权限问题没创建目录成功，但实际上目录已经有了，再运行一次就好了。
 
 所有需要的东西都在build/android目录，包括头文件等，直接就能用了。
