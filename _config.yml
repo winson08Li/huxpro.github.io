@@ -1,6 +1,6 @@
 # Site settings
 title: Winson's Blog
-SEOTitle: 黎锐枢的博客 | Winson's Blog
+SEOTitle: 黎锐枢的博客 | Winson's blog
 header-img: img/home-bg.jpg
 email: winson0008@gmail.com
 description: "关于Android与多媒体图像处理、计算机视觉、黑客与画家 | 黎锐枢，Android & Mutimedia，Software Engineer "
@@ -86,7 +86,7 @@ service-worker: true
 
 # Friends
 friends: [
-    {
+    #{
     #     title: "Su",
     #     href: "http://su.gallery/"
     # },{
