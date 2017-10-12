@@ -52,6 +52,8 @@ make install
 exit 0
 ```
 
+> 注意这样默认编出来的是双精度的库只有libfftw3.a，如果想要单精度的要在configure那里加上--enable-float
+
 然后直接运行./build_android.sh就好了，就会生成libfftw3.a在build/android/libs目录。如果没生成多半是权限问题没创建目录成功，但实际上目录已经有了，再运行一次就好了。
 
 所有需要的东西都在build/android目录，包括头文件等，直接就能用了。
