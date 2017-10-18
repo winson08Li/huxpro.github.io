@@ -19,11 +19,31 @@ git clone https://github.com/opencv/opencv.git
 
 ## 0x01 编译环境准备
 安装cmake
-> sudo apt-get install cmake
+
+``` shell
+$ sudo apt-get install cmake
+```
 
 但是有时候发现这样安装的不是最新版的cmake，opencv3.3的编译貌似需要的cmake版本比ubuntu官方仓库的要新。 直接cmake官网下载最新版的cmake然后configure然后make & make install
 
+安装ant
+
+``` shell
+$ sudo apt-get install ant
+```
+
+autotools系列工具，这应该大家都有的。
+
+环境变量：ANDROID_NDK， ANDROID_SDK， JAVA_HOME
+
 ## 0x02 编译
+
+``` shell
+$ cd cd <your-path-to-opencv-source>/platforms/script
+$ ./cmake_android_arm.sh
+```
+
+> 这样默认编出来的是armv7a的版本。
 
 ## 0x03 使用opencv_contrib
 代码下载:
@@ -110,3 +130,13 @@ sudo make install
 ```
 
 然后重新再编译opencv。终于通过了这次！全部编译成功。
+
+## Reference:
+
+[Building OpenCV4Android from trunk](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk)
+
+[Automatic hunter download fails with "Protocol "https" not supported or disabled in libcurl"](https://github.com/ruslo/hunter/issues/328)
+
+[Libcurl not updated](https://stackoverflow.com/questions/36866583/libcurl-not-updated)
+
+[curl: (48) An unknown option was passed in to libcurl](https://stackoverflow.com/questions/11678085/curl-48-an-unknown-option-was-passed-in-to-libcurl)
