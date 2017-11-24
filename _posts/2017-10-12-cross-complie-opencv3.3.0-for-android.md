@@ -18,21 +18,35 @@ git clone https://github.com/opencv/opencv.git
 ```
 
 ## 0x01 编译环境准备
-安装cmake
+
+如果木有cmake，就先安装cmake
 
 ``` shell
 $ sudo apt-get install cmake
 ```
 
-但是有时候发现这样安装的不是最新版的cmake，opencv3.3的编译貌似需要的cmake版本比ubuntu官方仓库的要新。 直接cmake官网下载最新版的cmake然后configure然后make & make install，或者用Github上的镜像也行：
+但是有时候发现这样安装的不是最新版的cmake，opencv3.3的编译貌似需要的cmake版本比ubuntu官方仓库的要新。
+
+> 现在我在16.04上用cmake3.5就没问题~可能之前的仓库cmake比较旧吧。。。
+
+直接cmake官网下载最新版的cmake然后configure然后make & make install，或者用Github上的镜像也行：
 
 ```
 $ git clone https://github.com/Kitware/CMake.git
 $ git checkout -b <new-branch-name> <release-tag>
 $ ./configure
 $ make
+$ sudo apt-get remove cmake
 $ sudo make install
 ```
+
+这样装完后输入`cmake --version`看版本可能会出现cmake找不到的问题，一般为缺少到/usr/bin/cmake的软连接的问题，创建一个就好了:
+
+``` shell
+$ ln -s /usr/local/bin/cmake /usr/bin/cmake
+```
+
+这样就木有问题了。
 
 安装ant
 
@@ -51,7 +65,50 @@ $ cd cd <your-path-to-opencv-source>/platforms/script
 $ ./cmake_android_arm.sh
 ```
 
-> 这样默认编出来的是armv7a的版本。
+这样输出一大段打印，说明你的opencv的配置，其中关于Android的一段:
+
+``` shell
+Android:
+--     Android ABI:                 armeabi-v7a
+--     STL type:                    gnustl_static
+--     Native API level:            android-9
+--     SDK target:                  android_sdk_target_status-NOTFOUND
+--     Android NDK:                 /home/winson/Android/Ndk/android-ndk-r14b (toolchain: arm-linux-androideabi-4.9)
+--     android tool:                /home/winson/Android/Sdk/tools/android (Android SDK Tools)
+```
+
+你会发现SDK Target那一栏有问题（没错我眼就是这么尖O(∩_∩)O），其原因是opencv编译脚本在获取sdk的时候对新版本的Android SDK的BUG，我们要修改一个文件：[path-to-opencv-source]/cmake/OpenCVDetectAndroidSDK.cmake
+
+```
+#get installed targets
+  if(ANDROID_TOOLS_Pkg_Revision GREATER 11)
+    execute_process(COMMAND ${ANDROID_EXECUTABLE} list target -c
+      RESULT_VARIABLE ANDROID_PROCESS
+      OUTPUT_VARIABLE ANDROID_SDK_TARGETS
+      ERROR_VARIABLE ANDROID_PROCESS_ERRORS
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+    string(REGEX MATCHALL "[^\n]+" ANDROID_SDK_TARGETS "${ANDROID_SDK_TARGETS}")
+  else()
+    ...
+  endif()
+```
+
+找到上面那一段，然后把其中的:
+
+`string(REGEX MATCHALL "[^\n]+" ANDROID_SDK_TARGETS "${ANDROID_SDK_TARGETS}")`
+
+改成:
+
+`string(REGEX MATCHALL "android-[0-9]+" ANDROID_SDK_TARGETS "${ANDROID_SDK_TARGETS}")`
+
+改好了后删掉build_android_arm这个文件夹然后重新来一次`$ ./cmake_android_arm.sh`
+
+这次没问题了。
+
+在build_android_arm这个文件夹下执行`make -j8`即可。
+
+这样默认编出来的是静态库armv7a的版本。如果想要动态库，
 
 ## 0x03 使用opencv_contrib
 代码下载:
@@ -65,6 +122,8 @@ git clone https://github.com/opencv/opencv_contrib.git
 opencv_contrib/modules/xfeatures2d/src/boostdesc.cpp:646:37: fatal error: boostdesc_bgm.i: No such file or directory
 ```
 Google一番发现原来是因为opencv的cmake编译脚本执行过程中会去用curl下载点东西，下载记录在build根目录(即构建目录)的CMakeDownloadLog.txt文件里。打开这个文件会发现用curl去下载一些文件的时候失败了。又Google一番发现是cmake用的curl没有ssl支持访问不了https。于是准备重新安装curl。
+
+> 如果你系统里面的curl版本大于7.40则其已支持ssl，可以用命令验证下。
 
 首先卸载系统的curl
 
