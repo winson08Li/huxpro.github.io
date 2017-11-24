@@ -24,7 +24,15 @@ git clone https://github.com/opencv/opencv.git
 $ sudo apt-get install cmake
 ```
 
-但是有时候发现这样安装的不是最新版的cmake，opencv3.3的编译貌似需要的cmake版本比ubuntu官方仓库的要新。 直接cmake官网下载最新版的cmake然后configure然后make & make install
+但是有时候发现这样安装的不是最新版的cmake，opencv3.3的编译貌似需要的cmake版本比ubuntu官方仓库的要新。 直接cmake官网下载最新版的cmake然后configure然后make & make install，或者用Github上的镜像也行：
+
+```
+$ git clone https://github.com/Kitware/CMake.git
+$ git checkout -b <new-branch-name> <release-tag>
+$ ./configure
+$ make
+$ sudo make install
+```
 
 安装ant
 
@@ -102,7 +110,48 @@ $ which curl
 然后看看这个`curl`链接的是哪个`libcurl.so`:
 
 ``` shell
-$ ldd /usr/local/bin/curl
+winson@ubuntu-server:~/projects/git_projects/curl$ ldd /usr/local/bin/curl
+        linux-vdso.so.1 =>  (0x00007fffb97a8000)
+        libcurl.so.4 => /usr/lib/x86_64-linux-gnu/libcurl.so.4 (0x00007f6e2f71f000)
+        libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f6e2f505000)
+        libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f6e2f2e7000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f6e2ef1d000)
+        libidn.so.11 => /usr/lib/x86_64-linux-gnu/libidn.so.11 (0x00007f6e2ecea000)
+        librtmp.so.1 => /usr/lib/x86_64-linux-gnu/librtmp.so.1 (0x00007f6e2eacd000)
+        libssl.so.1.0.0 => /lib/x86_64-linux-gnu/libssl.so.1.0.0 (0x00007f6e2e864000)
+        libcrypto.so.1.0.0 => /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 (0x00007f6e2e420000)
+        libgssapi_krb5.so.2 => /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2 (0x00007f6e2e1d5000)
+        liblber-2.4.so.2 => /usr/lib/x86_64-linux-gnu/liblber-2.4.so.2 (0x00007f6e2dfc6000)
+        libldap_r-2.4.so.2 => /usr/lib/x86_64-linux-gnu/libldap_r-2.4.so.2 (0x00007f6e2dd75000)
+        /lib64/ld-linux-x86-64.so.2 (0x00005557bc047000)
+        libgnutls.so.30 => /usr/lib/x86_64-linux-gnu/libgnutls.so.30 (0x00007f6e2da44000)
+        libhogweed.so.4 => /usr/lib/x86_64-linux-gnu/libhogweed.so.4 (0x00007f6e2d811000)
+        libnettle.so.6 => /usr/lib/x86_64-linux-gnu/libnettle.so.6 (0x00007f6e2d5db000)
+        libgmp.so.10 => /usr/lib/x86_64-linux-gnu/libgmp.so.10 (0x00007f6e2d35a000)
+        libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f6e2d156000)
+        libkrb5.so.3 => /usr/lib/x86_64-linux-gnu/libkrb5.so.3 (0x00007f6e2ce84000)
+        libk5crypto.so.3 => /usr/lib/x86_64-linux-gnu/libk5crypto.so.3 (0x00007f6e2cc54000)
+        libcom_err.so.2 => /lib/x86_64-linux-gnu/libcom_err.so.2 (0x00007f6e2ca50000)
+        libkrb5support.so.0 => /usr/lib/x86_64-linux-gnu/libkrb5support.so.0 (0x00007f6e2c845000)
+        libresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007f6e2c629000)
+        libsasl2.so.2 => /usr/lib/x86_64-linux-gnu/libsasl2.so.2 (0x00007f6e2c40e000)
+        libgssapi.so.3 => /usr/lib/x86_64-linux-gnu/libgssapi.so.3 (0x00007f6e2c1cd000)
+        libp11-kit.so.0 => /usr/lib/x86_64-linux-gnu/libp11-kit.so.0 (0x00007f6e2bf68000)
+        libtasn1.so.6 => /usr/lib/x86_64-linux-gnu/libtasn1.so.6 (0x00007f6e2bd55000)
+        libkeyutils.so.1 => /lib/x86_64-linux-gnu/libkeyutils.so.1 (0x00007f6e2bb50000)
+        libheimntlm.so.0 => /usr/lib/x86_64-linux-gnu/libheimntlm.so.0 (0x00007f6e2b947000)
+        libkrb5.so.26 => /usr/lib/x86_64-linux-gnu/libkrb5.so.26 (0x00007f6e2b6bd000)
+        libasn1.so.8 => /usr/lib/x86_64-linux-gnu/libasn1.so.8 (0x00007f6e2b41a000)
+        libhcrypto.so.4 => /usr/lib/x86_64-linux-gnu/libhcrypto.so.4 (0x00007f6e2b1e7000)
+        libroken.so.18 => /usr/lib/x86_64-linux-gnu/libroken.so.18 (0x00007f6e2afd1000)
+        libffi.so.6 => /usr/lib/x86_64-linux-gnu/libffi.so.6 (0x00007f6e2adc8000)
+        libwind.so.0 => /usr/lib/x86_64-linux-gnu/libwind.so.0 (0x00007f6e2ab9f000)
+        libheimbase.so.1 => /usr/lib/x86_64-linux-gnu/libheimbase.so.1 (0x00007f6e2a990000)
+        libhx509.so.5 => /usr/lib/x86_64-linux-gnu/libhx509.so.5 (0x00007f6e2a744000)
+        libsqlite3.so.0 => /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 (0x00007f6e2a46f000)
+        libcrypt.so.1 => /lib/x86_64-linux-gnu/libcrypt.so.1 (0x00007f6e2a237000)
+winson@ubuntu-server:~/projects/git_projects/curl$
+
 ```
 
 发现其使用的并不是位于/usr/local/lib里面的(curl源码编译的安装位置)，用的是另外一个，估计是系统自带的。
