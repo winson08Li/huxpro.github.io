@@ -108,7 +108,9 @@ Android:
 
 在build_android_arm这个文件夹下执行`make -j8`即可。
 
-这样默认编出来的是静态库armv7a的版本。如果想要动态库，
+这样默认编出来的是静态库armv7a的版本。
+
+> 貌似opencv源码编译不出动态库版本？我只知道在opencv的cmake脚本里面遇到Android直接禁用动态库编译了
 
 ## 0x03 使用opencv_contrib
 代码下载:
