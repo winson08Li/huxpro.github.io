@@ -419,7 +419,7 @@ Cursor.registerDataSetObserver : 注册一个监听器，一旦Cursor(的缓冲�
 其基本过程是，当查询发起方向数据源发起了一个query，数据源会生成一个新的Cursor，并且会调用这个Cursor的setNotificationUri。当调用了这个方法的时候Cursor就会在内部调用ContentResolver.registerContentObserver关注自己URI的变化。
 当有其他的代码调用这个数据源的`insert`、`delete`、`update`这种操作改变了相关数据时，数据源会调用ContentResolver.notifyChanged向一个特定的URI发出通知。这个时候如果Cursor监听的URI匹配这个通知的URI，那Cursor的内部类的SelfContentObserver.onChange就会被触发，然后Cursor.onChanged就会被调用。这个时候如果这个Cursor上注册有ContentObserver，那这些ContentObserver的onChanged就会被触发。<br>
 <br>
-注意！这个时候Cursor的内容还没有发生变化，是数据源发生了变化，这个通知只是告诉你数据源里面你感兴趣的数据比如那查询的那张表的数据发生了变化，至于你是不是要去重新获取数据，那是你的事。<br>\
+注意！这个时候Cursor的内容还没有发生变化，是数据源发生了变化，这个通知只是告诉你数据源里面你感兴趣的数据比如那查询的那张表的数据发生了变化，至于你是不是要去重新获取数据，那是你的事。<br>
 要想重新获取数据，请使用`Cursor.requery`或者直接重新查询获取新的Cursor。
 
 如果使用了`Cursor.requery`，那这个时候注册在这个Cursor上的DataSetObserver的`DataSetObserver.onChanged`会被触发，表明Cursor的数据已经更改了，请重新刷新相关界面或进行相关的处理工作。
