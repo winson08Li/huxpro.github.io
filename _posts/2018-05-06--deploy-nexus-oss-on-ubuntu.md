@@ -138,6 +138,7 @@ exited ?!退出了？<br>
 完。
 
 ## 0x04 参考链接
+- [主要参考文档](https://www.build-business-websites.co.uk/install-nexus-on-ubuntu-16-04/)
 - [官网安装文档](https://books.sonatype.com/nexus-book/3.1/reference/install.html#service-linux)
 - [sysv-rc-conf的介绍](https://blog.csdn.net/gatieme/article/details/45251389)
 - [使用systemd的方式配置开机启动](https://ha.cker.ir/2017/10/13/installing-nexus-repository-manager-oss-3-ubuntu-16-04-nginx/)
