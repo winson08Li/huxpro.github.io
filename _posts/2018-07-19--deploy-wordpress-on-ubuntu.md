@@ -40,6 +40,16 @@ $ rm -rf /data/wwwrott/default/*
 $ cp -r ~/wordpress/* /data/wwwroot/default/
 ```
 
+然后请**务必**更改目录的权限。我遇到下载wordpress插件的时候出现要求输入ftp用户名密码的问题，就是因为这个引起的。总之如果权限不对会有很多奇怪的问题，所以这步绝对绝对不能省。
+
+```
+$ chown -R www.www /data/wwwroot/
+$ find /data/wwwroot/ -type d -exec chmod 755 {} \;
+$ find /data/wwwroot/ -type f -exec chmod 644 {} \;
+```
+
+这样就OK拉！
+
 ## 0x02 准备数据库
 直接用phpMyAdmin，按照文档输入`xxx.xx.xxx.xxx/phpMyAdmin/`出现404错误
 原来是我刚才把默认站挪走了，当然找不到了，于是在`default`建了个新文件夹`nv`然后把原来默认站的内容copy过去了，继续：<br>
@@ -66,13 +76,25 @@ $ cp -r ~/wordpress/* /data/wwwroot/default/
 ## 0x04 额外的话
 第一个是在配置nginx的虚拟主机上花了很多时间。一开始的时候不想改默认站，然后就打算新建一个虚拟服务器，操作到一半突然发现没有域名，想到nginx应该不至于只能用域名配置虚拟服务器，于是google了一番发现确实可以用其他方式（分别是基于端口与基于IP），然后搞了很久发现还是不行，防火墙规则端口过滤什么的都搞了，本地`curl http://localhost:8080`就可以，但是localhost换成外部IP/局域网IP就不行。无语了于是一怒之下替换了默认站。<br>
 另外一个是自己傻逼，连接数据库不成功，原来自己密码填错了。。。<br>
-<br>
 PS：这个环境包真的好用，哈哈！
-<br>
-完。
+
+# 0x05 补充PureFtp的事项
+刚说完这个环境包好用就给我捅娄子了。。。这个环境包里面的PureFtp有问题，会出现`unable to open the passwd file no such file or directory`的错误，重启pureftp无法解决问题，Google了很久以及自己试出了如下解决办法：
+
+```
+$ touch /usr/local/pureftpd/etc/pureftpd.passwd
+$ rm -rf /usr/local/pureftpd/etc/pureftpd_psss.tmp
+$ /usr/local/pureftpd/bin/pure-pw mkdb -F /usr/local/pureftpd/etc/pureftpd.pdb
+```
+
+这样就好啦！然后直接用环境包提供的脚本就能新建用户！
 
 
-## 0x04 参考链接
+全文完。
+
+
+## 0x06 参考链接
 - [主要参考文档](https://oneinstack.com/docs/lnmpstack-image-guide/)
 - [有点旧但是还是相当有用的文档](https://codex.wordpress.org/zh-cn:%E5%AE%89%E8%A3%85_WordPress)
 - [phpMyAdmin使用教程](https://blog.csdn.net/u012767761/article/details/78238487)
+- [pureftp的问题参考连接](https://superuser.com/questions/1080220/pure-pw-error-unable-to-open-the-passwd-file-no-such-file-or-directory)
