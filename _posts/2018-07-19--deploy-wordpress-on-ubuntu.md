@@ -31,6 +31,7 @@ $ wget http://wordpress.org/latest.tar.gz
 ```
 $ mkdir ~/default_backup
 $ cp -r /data/wwwroot/default/* ~/default_backup
+$ rm -rf /data/wwwrott/default/*
 ```
 
 拷贝wordpress的代码过去（我干嘛不直接解压到这里呢，真是傻。。。）：
@@ -62,8 +63,13 @@ $ cp -r ~/wordpress/* /data/wwwroot/default/
 ## 0x03 最后的配置
 然后就是直接访问网站的IP地址`http://xxx.xx.xxx.xxx`，出现wordpress配置界面，随便配，完成后就可以了
 
+## 0x04 额外的话
+第一个是在配置nginx的虚拟主机上花了很多时间。一开始的时候不想改默认站，然后就打算新建一个虚拟服务器，操作到一半突然发现没有域名，想到nginx应该不至于只能用域名配置虚拟服务器，于是google了一番发现确实可以用其他方式（分别是基于端口与基于IP），然后搞了很久发现还是不行，防火墙规则端口过滤什么的都搞了，本地`curl http://localhost:8080`就可以，但是localhost换成外部IP/局域网IP就不行。无语了于是一怒之下替换了默认站。<br>
+另外一个是自己傻逼，连接数据库不成功，原来自己密码填错了。。。<br>
 <br>
-完
+PS：这个环境包真的好用，哈哈！
+<br>
+完。
 
 
 ## 0x04 参考链接
